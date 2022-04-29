@@ -7,13 +7,12 @@ from datetime import datetime
 from typing import Any
 
 from db import MySpanner
-# from db import MySpanner
 from gcs import MyGCS
 
 app: Any = Flask(__name__)
-INSTANCE_ID: str = os.environ.get("INSTANCE_ID")
-DATABASE_ID: str = os.environ.get("DATABASE_ID")
-BUCKET_NAME: str = os.environ.get("BUCKET_NAME")
+INSTANCE_ID: str = os.environ.get("INSTANCE_ID", "")
+DATABASE_ID: str = os.environ.get("DATABASE_ID", "")
+BUCKET_NAME: str = os.environ.get("BUCKET_NAME", "")
 
 @app.route("/test")
 def _test() -> Any:
@@ -24,7 +23,7 @@ def _main() -> Any:
     posted: dict = request.get_json()
     id: str = posted['id']
     json_file: str = f"{id}-{datetime.now().strftime('%Y%m%d%H%M%S')}.json"
-    result_data: list[str] = []
+    result_data: list = []
 
     code = 500
     try:
